@@ -55,7 +55,6 @@ namespace OracleAccessTest.Inventory
         string IDataInserter.GetInsertionQuery()
         {
             return "InsertItem";
-            //return $"INSERT INTO ITEM (ITEM_ID, ITEM_NAME, ITEM_AMOUNT) VALUES {ITEM_ID}, {ITEM_NAME}, {ITEM_AMOUNT}";
         }
 
         IEnumerable<Parameter> IDataInserter.GetParameters()
@@ -81,6 +80,12 @@ namespace OracleAccessTest.Inventory
         public static DataTable GetItemsTable()
         {
             return DataBaseManager.GetDataTable("ITEM");
+        }
+
+        public void DeleteItem()
+        {
+            DataBaseManager.DeleteItemWithKey("ITEM", "ITEM_ID", ITEM_ID);
+            System.Windows.Forms.MessageBox.Show("Succesfully Deleted Item");
         }
     }
 }

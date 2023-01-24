@@ -38,6 +38,7 @@ namespace OracleAccessTest.Screens
             this.label4 = new System.Windows.Forms.Label();
             this.ModifyButton = new System.Windows.Forms.Button();
             this.ApplyChangesButton = new System.Windows.Forms.Button();
+            this.DeleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // itemIDText
@@ -121,11 +122,22 @@ namespace OracleAccessTest.Screens
             this.ApplyChangesButton.Visible = false;
             this.ApplyChangesButton.Click += new System.EventHandler(this.ApplyChangesButton_Click);
             // 
+            // DeleteButton
+            // 
+            this.DeleteButton.Location = new System.Drawing.Point(532, 348);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(114, 23);
+            this.DeleteButton.TabIndex = 10;
+            this.DeleteButton.Text = "Delete Item";
+            this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
             // ItemDataScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.ApplyChangesButton);
             this.Controls.Add(this.ModifyButton);
             this.Controls.Add(this.label4);
@@ -154,5 +166,6 @@ namespace OracleAccessTest.Screens
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ModifyButton;
         private System.Windows.Forms.Button ApplyChangesButton;
+        private System.Windows.Forms.Button DeleteButton;
     }
 }

@@ -42,13 +42,13 @@ namespace OracleAccessTest.DataBase
         /// <summary>
         /// NOTE: The parameters from the T class should match the table parameters in order for this method to work
         /// </summary>
-        public static T GetItemWithKey<T>(string tableName, string parameterName, string key) where T : new()
+        public static T GetItemWithKey<T>(string tableName, string tableKey, string key) where T : new()
         {
             using (OracleConnection connection = GetFromConnectionString())
             {
                 connection.Open();
 
-                string query = $"SELECT * FROM {tableName} WHERE {parameterName} = :key";
+                string query = $"SELECT * FROM {tableName} WHERE {tableKey} = :key";
 
                 OracleCommand command = new OracleCommand(query, connection);
 
@@ -193,6 +193,8 @@ namespace OracleAccessTest.DataBase
                 OracleCommand command = new OracleCommand(query, connection);
 
                 command.Parameters.Add(new OracleParameter("keyValue", key));
+
+                command.ExecuteNonQuery();
             }
         }
 

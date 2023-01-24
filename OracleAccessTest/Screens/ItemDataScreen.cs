@@ -87,5 +87,11 @@ namespace OracleAccessTest.Screens
                 MessageBox.Show("Item Amount shall be a numeric value");
             }
         }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            item.DeleteItem();
+            this.Close();
+        }
     }
 }
