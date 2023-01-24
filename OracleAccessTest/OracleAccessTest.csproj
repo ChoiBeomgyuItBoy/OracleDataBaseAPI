@@ -50,7 +50,6 @@
     <Compile Include="DataBase\DataBaseManager.cs" />
     <Compile Include="DataBase\IDataInserter.cs" />
     <Compile Include="DataBase\IDataModifier.cs" />
-    <Compile Include="DataBase\Parameter.cs" />
     <Compile Include="Inventory\InventoryItem.cs" />
     <Compile Include="Screens\Form1.cs">
       <SubType>Form</SubType>
