@@ -9,5 +9,9 @@
    - Getting Objects w. Key
    
 ## Demo
-  - Project uses "Inventory Items" from a videogame to simulate a system
-  - GUI to test each utility
+  - Project uses "Inventory Items" from a videogame to simulate a Inventory System.
+  - GUI to test each utility.
+  
+## Use
+   - Project should use "System.Data.OracleClient" reference for the API to work.
+   - Should set the connection parameters like user and password in the "DataBaseManager" class
