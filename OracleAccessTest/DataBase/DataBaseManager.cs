@@ -142,47 +142,68 @@ namespace OracleAccessTest.DataBase
             }
         }
 
-        public static void InsertData(IDataInserter inserter)
+        public static bool InsertData(IDataInserter inserter)
         {
             using (OracleConnection connection = GetFromConnectionString())
             {
                 connection.Open();
 
-                OracleCommand command = new OracleCommand(inserter.GetInsertionQuery(), connection);
+                var insertionData = inserter.GetInsertionData();
 
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                var columnNames = string.Join(",", insertionData.Keys);
+                var columnValues = string.Join(",", insertionData.Keys.Select(k => ":" + k));
 
-                foreach (Parameter parameter in inserter.GetParameters())
+                string query = $"INSERT INTO {inserter.GetInsertionTableName()} ({columnNames}) VALUES ({columnValues})";
+
+                OracleCommand command = new OracleCommand(query, connection);
+
+                foreach(var item in insertionData)
                 {
-                    if (parameter.value == null) continue;
-                    AddParameter(parameter, command);
+                    command.Parameters.Add(new OracleParameter(item.Key, item.Value));
                 }
 
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if(rowsAffected == 0)
+                {
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        public static void ModifyData(IDataModifier modifier)
+        public static bool ModifyData(IDataModifier modifier)
         {
             using (OracleConnection connection = GetFromConnectionString())
             {
                 connection.Open();
 
-                OracleCommand command = new OracleCommand(modifier.GetModifierQuery(), connection);
+                var modifyingData = modifier.GetDataToModify();
+                
+                var setClause = string.Join(",", modifyingData.Select(d => d.Key + "=:" + d.Key));
 
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                string query = $"UPDATE {modifier.GetModifyingTableName()} SET {setClause} WHERE {modifier.GetModifyingWhereClause()}";
 
-                foreach (Parameter parameter in modifier.GetModifiers())
+                OracleCommand command = new OracleCommand(query, connection);
+
+                foreach(var item in modifyingData)
                 {
-                    if (parameter.value == null) continue;
-                    AddParameter(parameter, command);
+                    command.Parameters.Add(new OracleParameter(item.Key, item.Value));
                 }
 
-                command.ExecuteNonQuery();
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        public static void DeleteItemWithKey(string tableName, string tableKey, string key)
+        public static bool DeleteItemWithKey(string tableName, string tableKey, string key)
         {
             using (OracleConnection connection = GetFromConnectionString())
             {
@@ -194,23 +215,15 @@ namespace OracleAccessTest.DataBase
 
                 command.Parameters.Add(new OracleParameter("keyValue", key));
 
-                command.ExecuteNonQuery();
-            }
-        }
+                int rowsAffected = command.ExecuteNonQuery();
 
-        private static void AddParameter(Parameter parameter, OracleCommand command)
-        {
-            switch(parameter.type)
-            {
-                case OracleType.Char:
-                    command.Parameters.Add(parameter.name, parameter.type).Value = (string) parameter.value;
-                    break;
+                if (rowsAffected == 0)
+                {
+                    return false;
+                }
 
-                case OracleType.Number:
-                    command.Parameters.Add(parameter.name, parameter.type).Value = (int) parameter.value;
-                    break;
+                return true;
             }
         }
     }
-
 }

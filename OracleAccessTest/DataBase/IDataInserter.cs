@@ -4,7 +4,8 @@ namespace OracleAccessTest.DataBase
 {
     public interface IDataInserter
     {
-        string GetInsertionQuery();
-        IEnumerable<Parameter> GetParameters();
+        string GetInsertionTableName();
+        string GetInsertionWhereClause();
+        Dictionary<string, object> GetInsertionData();
     }
 }

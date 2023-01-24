@@ -51,32 +51,7 @@ namespace OracleAccessTest.Inventory
             return DataBaseManager.GetMaxAttributeSize("ITEM", "ITEM_AMOUNT");
         }
 
-        // Query from SQL developer
-        string IDataInserter.GetInsertionQuery()
-        {
-            return "InsertItem";
-        }
-
-        IEnumerable<Parameter> IDataInserter.GetParameters()
-        {
-            yield return new Parameter("itemID", ITEM_ID, OracleType.Char);
-            yield return new Parameter("itemName", ITEM_NAME, OracleType.Char);
-            yield return new Parameter("itemAmount", ITEM_AMOUNT, OracleType.Number);
-        }
-
-        // Query from SQL developer
-        string IDataModifier.GetModifierQuery()
-        {
-            return "ModifyItem";
-        }
-
-        IEnumerable<Parameter> IDataModifier.GetModifiers()
-        {
-            yield return new Parameter("newItemID", ITEM_ID, OracleType.Char);
-            yield return new Parameter("newItemName", ITEM_NAME, OracleType.Char);
-            yield return new Parameter("newItemAmount", ITEM_AMOUNT, OracleType.Number);
-        }
-
+       
         public static DataTable GetItemsTable()
         {
             return DataBaseManager.GetDataTable("ITEM");
@@ -86,6 +61,49 @@ namespace OracleAccessTest.Inventory
         {
             DataBaseManager.DeleteItemWithKey("ITEM", "ITEM_ID", ITEM_ID);
             System.Windows.Forms.MessageBox.Show("Succesfully Deleted Item");
+        }
+
+        public string GetInsertionTableName()
+        {
+            return "ITEM";
+        }
+
+        public Dictionary<string, object> GetInsertionData()
+        {
+            var insertionData = new Dictionary<string, object>
+            {
+                { "ITEM_ID", ITEM_ID },
+                { "ITEM_NAME", ITEM_NAME },
+                { "ITEM_AMOUNT", ITEM_AMOUNT }
+            };
+
+            return insertionData;
+        }
+
+        public string GetInsertionWhereClause()
+        {
+            return "ITEM_ID = ITEM_ID";
+        }
+
+        public string GetModifyingTableName()
+        {
+            return "ITEM";
+        }
+
+        public Dictionary<string, object> GetDataToModify()
+        {
+            var dataToModify = new Dictionary<string, object>
+            {
+                { "ITEM_NAME", ITEM_NAME },
+                { "ITEM_AMOUNT", ITEM_AMOUNT }
+            };
+
+            return dataToModify;
+        }
+
+        public string GetModifyingWhereClause()
+        {
+            return "ITEM_ID =: ITEM_ID";
         }
     }
 }

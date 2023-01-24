@@ -23,7 +23,6 @@ namespace OracleAccessTest.Screens
 
         private void ToggleTextFields(bool state)
         {
-            itemIDText.Enabled = state;
             itemNameText.Enabled = state;
             itemAmountText.Enabled = state;
         }

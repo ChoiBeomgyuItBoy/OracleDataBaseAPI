@@ -4,7 +4,8 @@ namespace OracleAccessTest.DataBase
 {
     public interface IDataModifier
     {
-        string GetModifierQuery();
-        IEnumerable<Parameter> GetModifiers();
+        string GetModifyingTableName();
+        string GetModifyingWhereClause();
+        Dictionary<string, object> GetDataToModify();
     }
 }
